@@ -102,7 +102,7 @@ def generate_records():
         i+=1
     
     f = open("doctors1.csv","a")
-    f.write("\"name\",\"degree\",\"specialization\",\"hospital\",\"experience\",\"awards\"\n")
+    # f.write("\"name\",\"degree\",\"specialization\",\"hospital\",\"experience\",\"awards\"\n")
 
     for record in records:
         s = ""
