@@ -101,7 +101,7 @@ def generate_records():
             records += get_records_by_url(url+"?page="+str(page),specializations[i])
         i+=1
     
-    f = open("doctors1.csv","a")
+    f = open("doctors.csv","a")
     # f.write("\"name\",\"degree\",\"specialization\",\"hospital\",\"experience\",\"awards\"\n")
 
     for record in records:
