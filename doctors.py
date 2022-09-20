@@ -57,7 +57,7 @@ def get_awards(doctor_achievements) ->str:
 
 def get_record(doctor,specialization) -> List:
     record = []
-    doctor_name = doctor.find('h2', class_ = "GA_doctors_docprof doc_titled_name").text.strip()
+    doctor_name = doctor.find('h2', class_ = "doc_titled_name").text.strip()
     record.append(doctor_name)
     
 
@@ -70,10 +70,12 @@ def get_record(doctor,specialization) -> List:
     doctor_hospital = doctor.find('div', class_ = "sp-d-hospital-aff").text.strip()
     record.append(doctor_hospital)
     
+
+    doctor_achievements = doctor.find('div', class_ = "sp-achievements")
+    
     doctor_experience = get_experience(doctor_achievements)
     record.append(doctor_experience)
 
-    doctor_achievements = doctor.find('div', class_ = "sp-achievements")
     doctor_awards = get_awards(doctor_achievements)
     record.append(doctor_awards)
     
