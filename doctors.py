@@ -70,14 +70,14 @@ def get_record(doctor,specialization) -> List:
     doctor_hospital = doctor.find('div', class_ = "sp-d-hospital-aff").text.strip()
     record.append(doctor_hospital)
     
+    doctor_experience = get_experience(doctor_achievements)
+    record.append(doctor_experience)
 
     doctor_achievements = doctor.find('div', class_ = "sp-achievements")
     doctor_awards = get_awards(doctor_achievements)
     record.append(doctor_awards)
     
 
-    doctor_experience = get_experience(doctor_achievements)
-    record.append(doctor_experience)
     # print(record)
 
     return record
