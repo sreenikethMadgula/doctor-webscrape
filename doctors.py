@@ -1,6 +1,4 @@
 # scraping from credihealth.com
-from doctest import DONT_ACCEPT_TRUE_FOR_1
-from typing import List
 from bs4 import BeautifulSoup
 import requests
 import re
@@ -51,7 +49,7 @@ def get_awards(doctor_achievements) ->str:
         mo = re.search(r'(\d+).*',txt)
         doctor_awards = mo.groups()[0]
     except:
-        doctor_awards = ''
+        doctor_awards = "0"
     return doctor_awards
 
 
@@ -103,7 +101,7 @@ def generate_records():
             records += get_records_by_url(url+"?page="+str(page),specializations[i])
         i+=1
     
-    f = open("doctors.csv","a")
+    f = open("doctors.csv","w")
     # f.write("\"name\",\"degree\",\"specialization\",\"hospital\",\"experience\",\"awards\"\n")
 
     for record in records:
