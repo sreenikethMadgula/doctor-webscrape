@@ -24,15 +24,18 @@ urls = [
 
 specializations = [
     "cardiology",
-    "ent",
-    "orthopedic",
-    "opthalmology",
-    "general surgery",
-    "dental surgery",
-    "neurology",
-    "gastroenterology",
-    "dermatology"
+    # "ent",
+    # "orthopedic",
+    # "opthalmology",
+    # "general surgery",
+    # "dental surgery",
+    # "neurology",
+    # "gastroenterology",
+    # "dermatology"
 ]
+
+hospitals = {}
+hospital_count = 0
 
 
 def get_experience(doctor_achievements) ->str:
@@ -43,6 +46,7 @@ def get_experience(doctor_achievements) ->str:
     return doctor_experience
 
 def get_awards(doctor_achievements) ->str:
+    print("this")
     try:
         doctor_awards = doctor_achievements.find('span', class_ = "padding-r30").text.strip()
         txt = doctor_awards
@@ -53,36 +57,54 @@ def get_awards(doctor_achievements) ->str:
     return doctor_awards
 
 
-def get_record(doctor,specialization) -> List:
-    record = []
+def get_record(doctor,specialization) -> list:
+    # record = []
     doctor_name = doctor.find('h2', class_ = "doc_titled_name").text.strip()
     record.append(doctor_name)
     
+    doctor_address = "Bangalore"
+    record.append(doctor_address)
+
+    doctor_age = "50"
+    record.append(doctor_age)
+
+    doctor_gender = "M"
+    record.append(doctor_gender)
+
+    doctor_mobile = "999999999"
+    record.append(doctor_mobile)
+
+    doctor_email = "abc@xyz.com"
+    record.append(doctor_address)
+
+
 
     doctor_degree = doctor.find('p', class_ = "sp-d-degree").text.strip()
     record.append(doctor_degree)
     
-    record.append(specialization)
-    
-
-    doctor_hospital = doctor.find('div', class_ = "sp-d-hospital-aff").text.strip()
-    record.append(doctor_hospital)
-    
-
     doctor_achievements = doctor.find('div', class_ = "sp-achievements")
-    
+
     doctor_experience = get_experience(doctor_achievements)
     record.append(doctor_experience)
 
     doctor_awards = get_awards(doctor_achievements)
     record.append(doctor_awards)
     
+    record.append(str(specialization))
 
-    # print(record)
+    doctor_hospital = doctor.find('div', class_ = "sp-d-hospital-aff").text.strip()
+    try:
+        hospitals[doctor_hospital]+=1
+
+
+    doctor_hospital_id = "0"
+    record.append(doctor_hospital_id)
+    
+    print(record)
 
     return record
 
-def get_records_by_url(url:str, specialization:str)->List[List]:
+def get_records_by_url(url:str, specialization:str)->list[list]:
     html_text = requests.get(url).text
     soup = BeautifulSoup(html_text,'lxml')
     records = []
@@ -93,17 +115,35 @@ def get_records_by_url(url:str, specialization:str)->List[List]:
     return records
 
 
+# def generate_records():
+#     records = []
+#     i = 0
+#     for url in urls:
+#         for page in range(4):
+#             records += get_records_by_url(url+"?page="+str(page),specializations[i])
+#         i+=1
+    
+#     f = open("doctors.csv","w")
+#     # f.write("\"name\",\"degree\",\"specialization\",\"hospital\",\"experience\",\"awards\"\n")
+
+#     for record in records:
+#         s = ""
+#         for i in range(len(record)-1):
+#             s+="\""+record[i]+"\""+","
+#         s+="\""+record[i+1]+"\""+"\n"
+#         f.write(s)
+
+
 def generate_records():
     records = []
     i = 0
+    f = open("doctors.csv","w")
     for url in urls:
-        for page in range(4):
-            records += get_records_by_url(url+"?page="+str(page),specializations[i])
+        # for page in range(4):
+        records += get_records_by_url(url,i)
         i+=1
     
-    f = open("doctors.csv","w")
-    # f.write("\"name\",\"degree\",\"specialization\",\"hospital\",\"experience\",\"awards\"\n")
-
+    # f.write("name,address,age,gender,mobile,email,degree,experience,awards,specializaitons/0,hospitals/0\n")
     for record in records:
         s = ""
         for i in range(len(record)-1):
@@ -112,5 +152,3 @@ def generate_records():
         f.write(s)
     
 generate_records()
-
-# print(generate_records())
