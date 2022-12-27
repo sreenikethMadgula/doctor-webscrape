@@ -58,7 +58,7 @@ def get_awards(doctor_achievements) ->str:
 
 
 def get_record(doctor,specialization) -> list:
-    # record = []
+    record = []
     doctor_name = doctor.find('h2', class_ = "doc_titled_name").text.strip()
     record.append(doctor_name)
     
