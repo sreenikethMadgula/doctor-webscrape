@@ -67,6 +67,8 @@ def get_record(doctor,specialization) -> list:
         print(doctor_hospital)
         hospital_name,hospital_address = get_hospital(doctor_hospital)
 
+        doctor_hospital = hospital_name + hospital_address
+
         doctor_address = "Bangalore"
         # record.append(doctor_address)
         # record["address"] = doctor_address
